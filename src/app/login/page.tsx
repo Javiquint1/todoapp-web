@@ -50,11 +50,11 @@ export default function LoginPage() {
   return (
     <main className="auth-shell">
       <section className="auth-panel">
-        <h1>Welcome back</h1>
-        <p>Log in to manage jobs, bookings, and platform operations.</p>
+        <h1>Bienvenido de nuevo</h1>
+        <p>Inicia sesión para gestionar servicios, reservas y operaciones de la plataforma.</p>
         <form className="form-stack" onSubmit={handleSubmit}>
           <label>
-            Email
+            Correo electrónico
             <input
               autoComplete="email"
               onChange={(event) => setEmail(event.target.value)}
@@ -64,7 +64,7 @@ export default function LoginPage() {
             />
           </label>
           <label>
-            Password
+            Contraseña
             <input
               autoComplete="current-password"
               minLength={8}
@@ -76,11 +76,11 @@ export default function LoginPage() {
           </label>
           {errorMessage ? <div className="error-text">{errorMessage}</div> : null}
           <button className="primary-button" disabled={isSubmitting} type="submit">
-            {isSubmitting ? 'Logging in...' : 'Log in'}
+            {isSubmitting ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </button>
         </form>
         <Link className="muted-link" href="/signup">
-          Create an account
+          Crear una cuenta
         </Link>
       </section>
     </main>

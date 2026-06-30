@@ -46,7 +46,7 @@ export default function SignupPage() {
       }
 
       if (!data.user) {
-        throw new Error('Signup did not return a user.');
+        throw new Error('No se pudo crear el usuario.');
       }
 
       const { data: profile, error: profileError } = await supabase
@@ -77,7 +77,7 @@ export default function SignupPage() {
       }
 
       if (!data.session) {
-        setSuccessMessage('Account created. Please confirm your email before logging in.');
+        setSuccessMessage('Cuenta creada. Confirma tu correo antes de iniciar sesión.');
         return;
       }
 
@@ -93,11 +93,11 @@ export default function SignupPage() {
   return (
     <main className="auth-shell">
       <section className="auth-panel">
-        <h1>Create account</h1>
-        <p>Choose a customer or worker role to start with Todero.</p>
+        <h1>Crear cuenta</h1>
+        <p>Elige un rol de cliente o trabajador para empezar en Todero.</p>
         <form className="form-stack" onSubmit={handleSubmit}>
           <label>
-            Full name
+            Nombre completo
             <input
               autoComplete="name"
               onChange={(event) => setFullName(event.target.value)}
@@ -106,7 +106,7 @@ export default function SignupPage() {
             />
           </label>
           <label>
-            Email
+            Correo electrónico
             <input
               autoComplete="email"
               onChange={(event) => setEmail(event.target.value)}
@@ -116,7 +116,7 @@ export default function SignupPage() {
             />
           </label>
           <label>
-            Password
+            Contraseña
             <input
               autoComplete="new-password"
               minLength={8}
@@ -127,7 +127,7 @@ export default function SignupPage() {
             />
           </label>
           <label>
-            Phone number
+            Número de celular
             <input autoComplete="tel" onChange={(event) => setPhoneNumber(event.target.value)} value={phoneNumber} />
           </label>
           <label>
@@ -135,7 +135,7 @@ export default function SignupPage() {
             <input onChange={(event) => setCity(event.target.value)} value={city} />
           </label>
           <label>
-            Role
+            Rol
             <select onChange={(event) => setRole(event.target.value as SignupRole)} value={role}>
               <option value="CUSTOMER">Cliente</option>
               <option value="WORKER">Trabajador</option>
@@ -144,11 +144,11 @@ export default function SignupPage() {
           {errorMessage ? <div className="error-text">{errorMessage}</div> : null}
           {successMessage ? <div className="success-text">{successMessage}</div> : null}
           <button className="primary-button" disabled={isSubmitting} type="submit">
-            {isSubmitting ? 'Creating account...' : 'Sign up'}
+            {isSubmitting ? 'Creando cuenta...' : 'Crear cuenta'}
           </button>
         </form>
         <Link className="muted-link" href="/login">
-          Already have an account?
+          ¿Ya tienes una cuenta?
         </Link>
       </section>
     </main>

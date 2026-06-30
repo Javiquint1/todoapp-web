@@ -54,6 +54,15 @@ const statusLabels: Record<string, string> = {
   APPROVED: 'Aprobada',
   REJECTED: 'Rechazada',
   SUSPENDED: 'Suspendida',
+  ACTIVE: 'Activo',
+  BANNED: 'Bloqueado',
+  INACTIVE: 'Inactivo',
+};
+
+const documentStatusLabels: Record<string, string> = {
+  PENDING: 'Pendiente',
+  APPROVED: 'Aprobado',
+  REJECTED: 'Rechazado',
 };
 
 export const dynamic = 'force-dynamic';
@@ -120,7 +129,7 @@ export default async function AdminWorkerProfilePage({ params }: PageProps) {
         </div>
         <div className="header-actions">
           <Link className="secondary-link" href="/admin/workers">
-            Volver a workers
+            Volver a trabajadores
           </Link>
           <Link className="primary-button" href={`/admin/workers/${typedWorker.id}/verification`}>
             Abrir verificación
@@ -133,22 +142,22 @@ export default async function AdminWorkerProfilePage({ params }: PageProps) {
           <h2>Resumen</h2>
           <dl className="detail-list">
             <div>
-              <dt>Verificacion</dt>
+              <dt>Verificación</dt>
               <dd className={`status-pill status-${typedWorker.verification_status.toLowerCase()}`}>
                 {statusLabels[typedWorker.verification_status] ?? typedWorker.verification_status}
               </dd>
             </div>
             <div>
               <dt>Perfil</dt>
-              <dd>{typedProfile.status}</dd>
+              <dd>{statusLabels[typedProfile.status] ?? typedProfile.status}</dd>
             </div>
             <div>
               <dt>Trabajador</dt>
-              <dd>{typedWorker.status}</dd>
+              <dd>{statusLabels[typedWorker.status] ?? typedWorker.status}</dd>
             </div>
             <div>
               <dt>Verificado</dt>
-              <dd>{typedWorker.is_verified ? 'Si' : 'No'}</dd>
+              <dd>{typedWorker.is_verified ? 'Sí' : 'No'}</dd>
             </div>
           </dl>
         </article>
@@ -172,8 +181,8 @@ export default async function AdminWorkerProfilePage({ params }: PageProps) {
         </article>
 
         <article className="admin-card admin-card-wide">
-          <h2>Bio</h2>
-          <p className="admin-copy">{typedWorker.bio ?? 'Sin biografia registrada.'}</p>
+          <h2>Biografía</h2>
+          <p className="admin-copy">{typedWorker.bio ?? 'Sin biografía registrada.'}</p>
         </article>
 
         <article className="admin-card">
@@ -193,7 +202,7 @@ export default async function AdminWorkerProfilePage({ params }: PageProps) {
               <a className="document-link" href={document.document_url} key={document.id} rel="noreferrer" target="_blank">
                 <span>{documentLabels[document.document_type] ?? document.document_type}</span>
                 <small>
-                  {document.status}
+                  {documentStatusLabels[document.status] ?? document.status}
                   {document.notes ? ` · ${document.notes}` : ''}
                 </small>
               </a>
@@ -203,12 +212,12 @@ export default async function AdminWorkerProfilePage({ params }: PageProps) {
         </article>
 
         <article className="admin-card">
-          <h2>References</h2>
+          <h2>Referencias</h2>
           <pre className="metadata-block">{references || 'Sin referencias registradas.'}</pre>
         </article>
 
         <article className="admin-card">
-          <h2>Portfolio</h2>
+          <h2>Portafolio</h2>
           <div className="document-list">
             {portfolio.map((url) => (
               <a className="document-link" href={url} key={url} rel="noreferrer" target="_blank">

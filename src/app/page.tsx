@@ -5,13 +5,13 @@ export default function HomePage() {
     <main className="auth-shell">
       <section className="auth-panel">
         <h1>Todero Marketplace</h1>
-        <p>Sign in or create an account to continue.</p>
+        <p>Inicia sesión o crea una cuenta para continuar.</p>
         <div className="form-stack">
           <Link className="primary-button" href="/login">
-            Log in
+            Iniciar sesión
           </Link>
           <Link className="primary-button" href="/signup">
-            Sign up
+            Crear cuenta
           </Link>
         </div>
       </section>

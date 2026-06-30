@@ -87,6 +87,18 @@ const statusLabels: Record<string, string> = {
   SUSPENDED: 'Suspendida',
 };
 
+const documentStatusLabels: Record<string, string> = {
+  PENDING: 'Pendiente',
+  APPROVED: 'Aprobado',
+  REJECTED: 'Rechazado',
+};
+
+const checkResultLabels: Record<string, string> = {
+  PASSED: 'Aprobado',
+  FAILED: 'Fallido',
+  NEEDS_MORE_INFO: 'Necesita más información',
+};
+
 export const dynamic = 'force-dynamic';
 
 function readStringList(value: unknown) {
@@ -172,7 +184,7 @@ export default async function AdminWorkerVerificationPage({ params }: PageProps)
           <p className="eyebrow">Verificación</p>
           <h1>{typedProfile.full_name}</h1>
           <p>
-            {typedProfile.email} · {typedProfile.phone_number ?? 'Sin telefono'}
+            {typedProfile.email} · {typedProfile.phone_number ?? 'Sin teléfono'}
           </p>
         </div>
         <div className="header-actions">
@@ -223,7 +235,7 @@ export default async function AdminWorkerVerificationPage({ params }: PageProps)
               <a className="document-link" href={document.document_url} key={document.id} rel="noreferrer" target="_blank">
                 <span>{documentLabels[document.document_type] ?? document.document_type}</span>
                 <small>
-                  {document.status}
+                  {documentStatusLabels[document.status] ?? document.status}
                   {document.notes ? ` · ${document.notes}` : ''}
                 </small>
               </a>
@@ -248,7 +260,11 @@ export default async function AdminWorkerVerificationPage({ params }: PageProps)
                   <div>
                     <strong>{check.label}</strong>
                     <small>
-                      {savedCheck ? `Último resultado: ${savedCheck.result}` : detected ? 'Detectado en perfil' : 'Sin revisar'}
+                      {savedCheck
+                        ? `Último resultado: ${checkResultLabels[savedCheck.result] ?? savedCheck.result}`
+                        : detected
+                          ? 'Detectado en perfil'
+                          : 'Sin revisar'}
                     </small>
                   </div>
                   <select defaultValue={savedCheck?.result ?? (detected ? 'PASSED' : 'NEEDS_MORE_INFO')} name="result">
@@ -278,7 +294,7 @@ export default async function AdminWorkerVerificationPage({ params }: PageProps)
         </article>
 
         <article className="admin-card">
-          <h2>References</h2>
+          <h2>Referencias</h2>
           <pre className="metadata-block">{references || 'Sin referencias registradas.'}</pre>
         </article>
 

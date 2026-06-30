@@ -28,6 +28,20 @@ type ProfileRow = {
   email: string;
 };
 
+const requestStatusLabels: Record<string, string> = {
+  requested: 'Solicitada',
+  reviewing: 'En revisión',
+  assigned: 'Asignada',
+  quoted: 'Cotizada',
+  accepted: 'Aceptada',
+  scheduled: 'Programada',
+  in_progress: 'En progreso',
+  completed: 'Completada',
+  disputed: 'En disputa',
+  cancelled: 'Cancelada',
+  closed: 'Cerrada',
+};
+
 export default async function AdminServiceRequestsPage() {
   const { supabase } = await requireAdmin();
 
@@ -93,7 +107,9 @@ export default async function AdminServiceRequestsPage() {
               </span>
               <span>{categoryById.get(request.category_id)?.name ?? 'Servicio'}</span>
               <span>{request.city}</span>
-              <span className={`status-pill status-${request.status.toLowerCase()}`}>{request.status}</span>
+              <span className={`status-pill status-${request.status.toLowerCase()}`}>
+                {requestStatusLabels[request.status] ?? request.status}
+              </span>
               <Link className="secondary-link" href={`/admin/solicitudes/${request.id}`}>
                 Asignar
               </Link>

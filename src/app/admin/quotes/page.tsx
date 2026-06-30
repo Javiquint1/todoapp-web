@@ -199,9 +199,9 @@ export default async function AdminQuotesPage() {
 
               <form action={acceptQuoteWithAdminOverride} className="quote-admin-form">
                 <input name="quoteId" type="hidden" value={quote.id} />
-                <input name="overrideReason" placeholder="Motivo obligatorio del override" />
+                <input name="overrideReason" placeholder="Motivo obligatorio de la anulación administrativa" />
                 <button className="warning-button" type="submit">
-                  Aceptar con override admin
+                  Aceptar con anulación admin
                 </button>
               </form>
             </article>

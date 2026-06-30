@@ -79,7 +79,7 @@ export async function updateQuoteAdminReview(formData: FormData) {
   }
 
   if (nextStatus === 'accepted') {
-    throw new Error('Usa el override explicito con motivo para aceptar por el cliente.');
+    throw new Error('Usa la anulación administrativa explícita con motivo para aceptar por el cliente.');
   }
 
   const { quote, supabase } = await readQuote(quoteId);
@@ -118,7 +118,7 @@ export async function acceptQuoteWithAdminOverride(formData: FormData) {
   const overrideReason = readString(formData, 'overrideReason');
 
   if (!quoteId || !overrideReason) {
-    throw new Error('El override administrativo requiere un motivo.');
+    throw new Error('La anulación administrativa requiere un motivo.');
   }
 
   const { quote, supabase } = await readQuote(quoteId);

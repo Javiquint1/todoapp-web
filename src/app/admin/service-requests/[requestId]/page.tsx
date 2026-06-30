@@ -344,7 +344,7 @@ export default async function AdminServiceRequestDetailPage({ params, searchPara
               <dd>{customerProfile?.full_name ?? 'Cliente'}</dd>
             </div>
             <div>
-              <dt>Email</dt>
+              <dt>Correo</dt>
               <dd>{customerProfile?.email ?? '-'}</dd>
             </div>
             <div>
@@ -413,7 +413,7 @@ export default async function AdminServiceRequestDetailPage({ params, searchPara
           <form action={saveServiceRequestNotes} className="form-stack">
             <input name="serviceRequestId" type="hidden" value={typedRequest.id} />
             <label>
-              Urgency
+              Urgencia
               <select defaultValue={urgency} name="urgency">
                 {urgencyOptions.map((option) => (
                   <option key={option} value={option}>

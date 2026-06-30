@@ -46,8 +46,8 @@ export default function AuthRedirectPage() {
   return (
     <main className="auth-shell">
       <section className="auth-panel">
-        <h1>Redirecting</h1>
-        <p>Checking your account role.</p>
+        <h1>Redirigiendo</h1>
+        <p>Estamos verificando el rol de tu cuenta.</p>
         {errorMessage ? <div className="error-text">{errorMessage}</div> : null}
       </section>
     </main>

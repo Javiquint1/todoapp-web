@@ -134,7 +134,7 @@ export default async function RequestQuotesPage({ params }: PageProps) {
           <span>Materiales</span>
           <span>Diagnóstico</span>
           <span>Estado</span>
-          <span>Admin</span>
+          <span>Administrador</span>
         </div>
         {quoteRows.map((quote) => {
           const worker = workerById.get(quote.worker_profile_id);
@@ -187,9 +187,9 @@ export default async function RequestQuotesPage({ params }: PageProps) {
                   </form>
                   <form action={acceptQuoteWithAdminOverride} className="quote-admin-form quote-admin-form-stacked">
                     <input name="quoteId" type="hidden" value={quote.id} />
-                    <input name="overrideReason" placeholder="Motivo obligatorio del override" />
+                    <input name="overrideReason" placeholder="Motivo obligatorio de la anulación administrativa" />
                     <button className="warning-button" type="submit">
-                      Aceptar con override
+                      Aceptar con anulación
                     </button>
                   </form>
                 </details>

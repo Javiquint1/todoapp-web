@@ -28,6 +28,28 @@ type AssignmentRow = {
   status: string;
 };
 
+const requestStatusLabels: Record<string, string> = {
+  requested: 'Solicitada',
+  reviewing: 'En revisión',
+  assigned: 'Asignada',
+  quoted: 'Cotizada',
+  accepted: 'Aceptada',
+  scheduled: 'Programada',
+  in_progress: 'En progreso',
+  completed: 'Completada',
+  disputed: 'En disputa',
+  cancelled: 'Cancelada',
+  closed: 'Cerrada',
+};
+
+const assignmentStatusLabels: Record<string, string> = {
+  ASSIGNED: 'Asignado',
+  QUOTE_SUBMITTED: 'Cotización enviada',
+  DECLINED: 'Declinado',
+  ACCEPTED: 'Aceptado',
+  CANCELLED: 'Cancelado',
+};
+
 export default async function AdminServiceRequestDetailPage({ params }: PageProps) {
   const { supabase } = await requireAdmin();
 
@@ -87,14 +109,16 @@ export default async function AdminServiceRequestDetailPage({ params }: PageProp
           <dl className="detail-list">
             <div>
               <dt>Estado</dt>
-              <dd className={`status-pill status-${request.status.toLowerCase()}`}>{request.status}</dd>
+              <dd className={`status-pill status-${request.status.toLowerCase()}`}>
+                {requestStatusLabels[request.status] ?? request.status}
+              </dd>
             </div>
             <div>
               <dt>Cliente</dt>
               <dd>{customerProfile?.full_name ?? 'Cliente'}</dd>
             </div>
             <div>
-              <dt>Email</dt>
+              <dt>Correo</dt>
               <dd>{customerProfile?.email ?? '-'}</dd>
             </div>
             <div>
@@ -128,7 +152,7 @@ export default async function AdminServiceRequestDetailPage({ params }: PageProp
                     {profile?.full_name ?? 'Trabajador'}
                     <small>
                       {profile?.city ?? 'Sin ciudad'} · {worker.experience_years ?? 0} años ·{' '}
-                      {assignment?.status ?? 'Disponible'}
+                      {assignment ? assignmentStatusLabels[assignment.status] ?? assignment.status : 'Disponible'}
                     </small>
                   </span>
                 </label>
