@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+yarn.lock
+pnpm-lock.yaml
+
+# Production
+dist/
+build/
+.next/
+.expo/
+.expo-shared/
+out/
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.sublime-project
+.sublime-workspace
+
+# Testing
+coverage/
+*.lcov
+.nyc_output/
+*.tsbuildinfo
+
+# Turbo
+.turbo/
+
+# OS
+Thumbs.db
+.DS_Store
