@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { cancelJob, closeJob, openJobDispute, overrideJobStatus } from '../actions';
 import { jobStatuses, statusLabel } from '../constants';
+import { disputeStatusLabel } from '../../disputes/constants';
 import { requireAdmin } from '@/lib/supabase-server';
 
 type PageProps = {
@@ -395,7 +396,7 @@ export default async function AdminJobDetailPage({ params }: PageProps) {
           <div className="message-list">
             {((disputes ?? []) as Dispute[]).map((dispute) => (
               <div className="message-item" key={dispute.id}>
-                <strong>{dispute.status}</strong>
+                <strong>{disputeStatusLabel(dispute.status)}</strong>
                 <span>{dateTime(dispute.created_at)}</span>
                 <p>{dispute.reason}</p>
                 {dispute.resolution ? <small>{dispute.resolution}</small> : null}

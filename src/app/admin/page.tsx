@@ -22,6 +22,9 @@ export default function AdminPage() {
           <Link className="primary-button" href="/admin/payments">
             Gestionar pagos
           </Link>
+          <Link className="primary-button" href="/admin/disputes">
+            Gestionar disputas
+          </Link>
           <Link className="primary-button" href="/admin/workers">
             Ver verificaciones de trabajadores
           </Link>

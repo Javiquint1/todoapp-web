@@ -194,6 +194,11 @@ supabase db push
 psql [connection-string] < supabase/seed.sql
 ```
 
+Development admin test user:
+
+- Email: `admin@test.toderos.local`
+- Password: `AdminTest123!`
+
 ### Create Backup
 
 ```bash

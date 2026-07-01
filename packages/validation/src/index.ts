@@ -122,7 +122,7 @@ export const disputeReportSchema = z.object({
   type: disputeTypeSchema,
   reason: requiredText('Dispute reason'),
   evidenceUrls: z.array(z.string().url()).optional(),
-  status: disputeStatusSchema.default('OPEN'),
+  status: disputeStatusSchema.default('open'),
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;

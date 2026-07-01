@@ -436,6 +436,10 @@ textarea {
   grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr auto;
 }
 
+.dispute-row {
+  grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr auto;
+}
+
 .quote-compare-row {
   grid-template-columns: 1.25fr 0.9fr 0.9fr 0.9fr 0.85fr 1.45fr;
 }
@@ -525,6 +529,10 @@ textarea {
 
 .payment-filter-panel {
   grid-template-columns: repeat(3, minmax(150px, 1fr)) auto;
+}
+
+.dispute-filter-panel {
+  grid-template-columns: repeat(2, minmax(160px, 1fr)) auto;
 }
 
 .quick-action-grid {
@@ -626,8 +634,10 @@ textarea {
     .filter-panel,
     .job-row,
     .payment-row,
+    .dispute-row,
     .payment-create-form,
     .payment-filter-panel,
+    .dispute-filter-panel,
     .quote-row,
   .quote-compare-row,
   .quote-admin-form,

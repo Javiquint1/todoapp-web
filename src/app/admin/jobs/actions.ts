@@ -194,7 +194,8 @@ export async function openJobDispute(formData: FormData) {
     filed_by_profile_id: adminProfile.id,
     filed_against_profile_id: worker.profile_id,
     reason,
-    status: 'OPEN',
+    status: 'open',
+    type: 'other',
   });
 
   if (disputeError) {

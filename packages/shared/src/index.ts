@@ -67,16 +67,26 @@ export type PaymentStatus = (typeof PAYMENT_STATUSES)[number];
 export const PAYOUT_STATUSES = ['not_ready', 'pending', 'paid', 'failed', 'held'] as const;
 export type PayoutStatus = (typeof PAYOUT_STATUSES)[number];
 
-export const DISPUTE_STATUSES = ['OPEN', 'UNDER_REVIEW', 'RESOLVED', 'REJECTED'] as const;
+export const DISPUTE_STATUSES = [
+  'open',
+  'under_review',
+  'waiting_for_customer',
+  'waiting_for_worker',
+  'resolved',
+  'rejected',
+  'escalated',
+  'closed',
+] as const;
 export type DisputeStatus = (typeof DISPUTE_STATUSES)[number];
 
 export const DISPUTE_TYPES = [
-  'QUALITY',
-  'PAYMENT',
-  'NO_SHOW',
-  'SAFETY',
-  'PROPERTY_DAMAGE',
-  'OTHER',
+  'no_show',
+  'incomplete_work',
+  'damage_reported',
+  'payment_issue',
+  'unsafe_behavior',
+  'price_disagreement',
+  'other',
 ] as const;
 export type DisputeType = (typeof DISPUTE_TYPES)[number];
 
