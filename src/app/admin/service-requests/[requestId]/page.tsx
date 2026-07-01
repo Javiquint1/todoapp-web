@@ -255,7 +255,7 @@ export default async function AdminServiceRequestDetailPage({ params, searchPara
   const workerProfileIds = workerRows.map((worker) => worker.profile_id);
   const [{ data: completedJobs }, { data: reviews }] = await Promise.all([
     workerIds.length
-      ? supabase.from('jobs').select('worker_profile_id').in('worker_profile_id', workerIds).eq('status', 'COMPLETED')
+      ? supabase.from('jobs').select('worker_profile_id').in('worker_profile_id', workerIds).in('status', ['completed_by_worker', 'approved_by_customer', 'closed'])
       : Promise.resolve({ data: [] }),
     workerProfileIds.length
       ? supabase.from('reviews').select('reviewee_profile_id,rating').in('reviewee_profile_id', workerProfileIds).eq('status', 'PUBLISHED')

@@ -48,11 +48,24 @@ export type ServiceRequestAssignmentStatus = (typeof SERVICE_REQUEST_ASSIGNMENT_
 export const JOB_QUOTE_STATUSES = ['submitted', 'reviewed', 'accepted', 'rejected', 'expired', 'cancelled'] as const;
 export type JobQuoteStatus = (typeof JOB_QUOTE_STATUSES)[number];
 
-export const JOB_STATUSES = ['SCHEDULED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED', 'DISPUTED'] as const;
+export const JOB_STATUSES = [
+  'accepted',
+  'scheduled',
+  'worker_on_the_way',
+  'in_progress',
+  'completed_by_worker',
+  'approved_by_customer',
+  'disputed',
+  'cancelled',
+  'closed',
+] as const;
 export type JobStatus = (typeof JOB_STATUSES)[number];
 
-export const PAYMENT_STATUSES = ['PENDING', 'AUTHORIZED', 'CAPTURED', 'FAILED', 'REFUNDED'] as const;
+export const PAYMENT_STATUSES = ['pending', 'paid', 'failed', 'refunded', 'partially_refunded', 'cancelled'] as const;
 export type PaymentStatus = (typeof PAYMENT_STATUSES)[number];
+
+export const PAYOUT_STATUSES = ['not_ready', 'pending', 'paid', 'failed', 'held'] as const;
+export type PayoutStatus = (typeof PAYOUT_STATUSES)[number];
 
 export const DISPUTE_STATUSES = ['OPEN', 'UNDER_REVIEW', 'RESOLVED', 'REJECTED'] as const;
 export type DisputeStatus = (typeof DISPUTE_STATUSES)[number];

@@ -428,6 +428,14 @@ textarea {
   grid-template-columns: 1.4fr 1fr 1fr 1fr 1.4fr;
 }
 
+.job-row {
+  grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr auto;
+}
+
+.payment-row {
+  grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr auto;
+}
+
 .quote-compare-row {
   grid-template-columns: 1.25fr 0.9fr 0.9fr 0.9fr 0.85fr 1.45fr;
 }
@@ -486,6 +494,49 @@ textarea {
   padding: 9px 10px;
 }
 
+.payment-create-form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(150px, 1fr));
+  gap: 12px;
+  align-items: end;
+}
+
+.payment-create-form label,
+.payment-notes-field {
+  display: grid;
+  gap: 6px;
+  color: #5f6b76;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.payment-create-form input,
+.payment-create-form select {
+  width: 100%;
+  border: 1px solid #c9d1d9;
+  border-radius: 6px;
+  color: #172026;
+  padding: 9px 10px;
+}
+
+.payment-notes-field {
+  grid-column: span 2;
+}
+
+.payment-filter-panel {
+  grid-template-columns: repeat(3, minmax(150px, 1fr)) auto;
+}
+
+.quick-action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+}
+
+.quick-action-grid button {
+  width: 100%;
+}
+
 .check-row input,
 .check-row select,
 .decision-stack input,
@@ -506,6 +557,34 @@ textarea {
   white-space: pre-wrap;
   color: #5f6b76;
   font: inherit;
+}
+
+.timeline-list,
+.message-list {
+  display: grid;
+  gap: 10px;
+}
+
+.timeline-item,
+.message-item {
+  display: grid;
+  gap: 4px;
+  border: 1px solid #edf0f2;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.timeline-item span,
+.timeline-item small,
+.message-item span,
+.message-item small,
+.message-item p {
+  margin: 0;
+  color: #5f6b76;
+}
+
+.job-action-form {
+  margin-top: 14px;
 }
 
 .small-action,
@@ -544,13 +623,21 @@ textarea {
 
   .admin-row,
   .check-row,
-  .filter-panel,
-  .quote-row,
+    .filter-panel,
+    .job-row,
+    .payment-row,
+    .payment-create-form,
+    .payment-filter-panel,
+    .quote-row,
   .quote-compare-row,
   .quote-admin-form,
   .quote-comparison-grid,
-  .admin-grid {
+    .admin-grid {
     grid-template-columns: 1fr;
+  }
+
+  .payment-notes-field {
+    grid-column: auto;
   }
 
   .admin-row-head {

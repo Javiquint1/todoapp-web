@@ -16,6 +16,12 @@ export default function AdminPage() {
           <Link className="primary-button" href="/admin/quotes">
             Monitorear cotizaciones
           </Link>
+          <Link className="primary-button" href="/admin/jobs">
+            Gestionar trabajos
+          </Link>
+          <Link className="primary-button" href="/admin/payments">
+            Gestionar pagos
+          </Link>
           <Link className="primary-button" href="/admin/workers">
             Ver verificaciones de trabajadores
           </Link>

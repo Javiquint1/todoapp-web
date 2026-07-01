@@ -9,6 +9,7 @@ import {
   JOB_QUOTE_STATUSES,
   JOB_STATUSES,
   PAYMENT_STATUSES,
+  PAYOUT_STATUSES,
   SERVICE_CATEGORY_STATUSES,
   SERVICE_REQUEST_ASSIGNMENT_STATUSES,
   SERVICE_REQUEST_STATUSES,
@@ -31,6 +32,7 @@ export const serviceRequestAssignmentStatusSchema = z.enum(SERVICE_REQUEST_ASSIG
 export const jobQuoteStatusSchema = z.enum(JOB_QUOTE_STATUSES);
 export const jobStatusSchema = z.enum(JOB_STATUSES);
 export const paymentStatusSchema = z.enum(PAYMENT_STATUSES);
+export const payoutStatusSchema = z.enum(PAYOUT_STATUSES);
 export const disputeStatusSchema = z.enum(DISPUTE_STATUSES);
 export const disputeTypeSchema = z.enum(DISPUTE_TYPES);
 
@@ -132,6 +134,7 @@ export type ServiceCategoryInput = z.infer<typeof serviceCategorySchema>;
 export type JobQuoteInput = z.infer<typeof jobQuoteSchema>;
 export type JobStatusInput = z.infer<typeof jobStatusSchema>;
 export type PaymentStatusInput = z.infer<typeof paymentStatusSchema>;
+export type PayoutStatusInput = z.infer<typeof payoutStatusSchema>;
 export type DisputeReportInput = z.infer<typeof disputeReportSchema>;
 
 // Backwards-compatible aliases for earlier scaffold examples.
