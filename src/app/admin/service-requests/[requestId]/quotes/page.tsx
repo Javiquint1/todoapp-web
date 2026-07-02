@@ -4,9 +4,9 @@ import { acceptQuoteWithAdminOverride, updateQuoteAdminReview } from '../../../q
 import { requireAdmin } from '@/lib/supabase-server';
 
 type PageProps = {
-  params: {
+  params: Promise<{
     requestId: string;
-  };
+  }>;
 };
 
 type Quote = {
@@ -73,15 +73,16 @@ function metadataText(metadata: Record<string, unknown> | null, key: string) {
 export const dynamic = 'force-dynamic';
 
 export default async function RequestQuotesPage({ params }: PageProps) {
+  const { requestId } = await params;
   const { supabase } = await requireAdmin();
   const [{ data: request, error: requestError }, { data: quotes, error: quotesError }] = await Promise.all([
-    supabase.from('service_requests').select('id,city,address,status').eq('id', params.requestId).single(),
+    supabase.from('service_requests').select('id,city,address,status').eq('id', requestId).single(),
     supabase
       .from('job_quotes')
       .select(
         'id,worker_profile_id,amount,labor_price,materials_estimate,diagnostic_fee,duration_minutes,notes,status,created_at,metadata',
       )
-      .eq('service_request_id', params.requestId)
+      .eq('service_request_id', requestId)
       .order('labor_price', { ascending: true }),
   ]);
 
@@ -118,7 +119,7 @@ export default async function RequestQuotesPage({ params }: PageProps) {
           </p>
         </div>
         <div className="header-actions">
-          <Link className="secondary-link" href={`/admin/service-requests/${params.requestId}`}>
+          <Link className="secondary-link" href={`/admin/service-requests/${requestId}`}>
             Volver a la solicitud
           </Link>
           <Link className="secondary-link" href="/admin/quotes">

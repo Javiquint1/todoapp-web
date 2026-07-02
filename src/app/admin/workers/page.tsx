@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { requireAdmin } from '@/lib/supabase-server';
 
 type PageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     status?: string;
-  };
+  }>;
 };
 
 type WorkerProfile = {
@@ -41,9 +41,10 @@ const statusLabels: Record<string, string> = {
 export const dynamic = 'force-dynamic';
 
 export default async function AdminWorkersPage({ searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams;
   const { supabase } = await requireAdmin();
-  const selectedStatus = statusFilters.includes(searchParams?.status as (typeof statusFilters)[number])
-    ? searchParams?.status
+  const selectedStatus = statusFilters.includes(resolvedSearchParams?.status as (typeof statusFilters)[number])
+    ? resolvedSearchParams?.status
     : 'ALL';
 
   let query = supabase

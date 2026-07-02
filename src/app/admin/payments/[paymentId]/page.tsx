@@ -5,9 +5,9 @@ import { paymentStatusLabel, paymentStatuses, payoutStatusLabel, payoutStatuses 
 import { requireAdmin } from '@/lib/supabase-server';
 
 type PageProps = {
-  params: {
+  params: Promise<{
     paymentId: string;
-  };
+  }>;
 };
 
 type Payment = {
@@ -112,13 +112,14 @@ function quickPayoutActionLabel(status: string) {
 export const dynamic = 'force-dynamic';
 
 export default async function AdminPaymentDetailPage({ params }: PageProps) {
+  const { paymentId } = await params;
   const { supabase } = await requireAdmin();
   const { data: payment, error: paymentError } = await supabase
     .from('payments')
     .select(
       'id,job_id,customer_profile_id,worker_profile_id,amount,platform_fee,worker_amount,payment_provider,provider_reference,payment_status,payout_status,admin_notes,created_at,updated_at',
     )
-    .eq('id', params.paymentId)
+    .eq('id', paymentId)
     .single();
 
   if (paymentError || !payment) {

@@ -7,9 +7,9 @@ import { statusLabel as jobStatusLabel } from '../../jobs/constants';
 import { requireAdmin } from '@/lib/supabase-server';
 
 type PageProps = {
-  params: {
+  params: Promise<{
     disputeId: string;
-  };
+  }>;
 };
 
 type Dispute = {
@@ -105,11 +105,12 @@ function profileName(profileId: string | null, profilesById: Map<string, Profile
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDisputeDetailPage({ params }: PageProps) {
+  const { disputeId } = await params;
   const { supabase } = await requireAdmin();
   const { data: dispute, error: disputeError } = await supabase
     .from('disputes')
     .select('id,job_id,filed_by_profile_id,filed_against_profile_id,type,reason,status,resolution,internal_notes,created_at')
-    .eq('id', params.disputeId)
+    .eq('id', disputeId)
     .single();
 
   if (disputeError || !dispute) {

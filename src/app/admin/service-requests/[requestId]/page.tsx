@@ -5,15 +5,15 @@ import { requireAdmin } from '@/lib/supabase-server';
 import { assignWorkersToServiceRequest, saveServiceRequestNotes, updateServiceRequestStatus } from '../actions';
 
 type PageProps = {
-  params: {
+  params: Promise<{
     requestId: string;
-  };
-  searchParams?: {
+  }>;
+  searchParams?: Promise<{
     workerSearch?: string;
     workerSkill?: string;
     workerCity?: string;
     workerAvailability?: string;
-  };
+  }>;
 };
 
 type ServiceRequest = {
@@ -164,11 +164,13 @@ function workerMatchesText(values: string[], needle: string) {
 export const dynamic = 'force-dynamic';
 
 export default async function AdminServiceRequestDetailPage({ params, searchParams }: PageProps) {
+  const { requestId } = await params;
+  const resolvedSearchParams = await searchParams;
   const { supabase } = await requireAdmin();
   const { data: request, error: requestError } = await supabase
     .from('service_requests')
     .select('id,city,address,details,status,scheduled_at,customer_profile_id,category_id,subcategory_id,created_at,metadata')
-    .eq('id', params.requestId)
+    .eq('id', requestId)
     .single();
 
   if (requestError || !request) {
@@ -270,10 +272,10 @@ export default async function AdminServiceRequestDetailPage({ params, searchPara
     const current = ratingAccumulator.get(review.reviewee_profile_id) ?? { sum: 0, count: 0 };
     ratingAccumulator.set(review.reviewee_profile_id, { sum: current.sum + review.rating, count: current.count + 1 });
   }
-  const workerSearch = searchParams?.workerSearch?.trim() ?? '';
-  const workerSkill = searchParams?.workerSkill?.trim() ?? '';
-  const workerCity = searchParams?.workerCity?.trim() ?? '';
-  const workerAvailability = searchParams?.workerAvailability?.trim() ?? '';
+  const workerSearch = resolvedSearchParams?.workerSearch?.trim() ?? '';
+  const workerSkill = resolvedSearchParams?.workerSkill?.trim() ?? '';
+  const workerCity = resolvedSearchParams?.workerCity?.trim() ?? '';
+  const workerAvailability = resolvedSearchParams?.workerAvailability?.trim() ?? '';
   const filteredWorkers = workerRows.filter((worker) => {
     const profile = profilesById.get(worker.profile_id);
     const skills = readStringList(worker.metadata?.skills);

@@ -4,11 +4,11 @@ import { inactivePaymentProviders, paymentStatusLabel, paymentStatuses, payoutSt
 import { requireAdmin } from '@/lib/supabase-server';
 
 type PageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     paymentStatus?: string;
     payoutStatus?: string;
     provider?: string;
-  };
+  }>;
 };
 
 type Payment = {
@@ -75,14 +75,15 @@ function profileName(personId: string, peopleById: Map<string, PersonProfile>, p
 export const dynamic = 'force-dynamic';
 
 export default async function AdminPaymentsPage({ searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams;
   const { supabase } = await requireAdmin();
-  const selectedPaymentStatus = paymentStatuses.includes(searchParams?.paymentStatus as (typeof paymentStatuses)[number])
-    ? searchParams?.paymentStatus
+  const selectedPaymentStatus = paymentStatuses.includes(resolvedSearchParams?.paymentStatus as (typeof paymentStatuses)[number])
+    ? resolvedSearchParams?.paymentStatus
     : '';
-  const selectedPayoutStatus = payoutStatuses.includes(searchParams?.payoutStatus as (typeof payoutStatuses)[number])
-    ? searchParams?.payoutStatus
+  const selectedPayoutStatus = payoutStatuses.includes(resolvedSearchParams?.payoutStatus as (typeof payoutStatuses)[number])
+    ? resolvedSearchParams?.payoutStatus
     : '';
-  const selectedProvider = searchParams?.provider?.trim() ?? '';
+  const selectedProvider = resolvedSearchParams?.provider?.trim() ?? '';
 
   let query = supabase
     .from('payments')

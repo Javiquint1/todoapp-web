@@ -4,9 +4,9 @@ import { decideWorkerApplication, saveAdminNotes, saveVerificationCheck } from '
 import { requireAdmin } from '@/lib/supabase-server';
 
 type PageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 type WorkerProfile = {
@@ -78,13 +78,14 @@ function readStringList(value: unknown) {
 }
 
 export default async function WorkerVerificationDetailPage({ params }: PageProps) {
+  const { id } = await params;
   const { supabase } = await requireAdmin();
   const { data: worker, error: workerError } = await supabase
     .from('worker_profiles')
     .select(
       'id,profile_id,service_radius_km,verification_status,bio,experience_years,metadata',
     )
-    .eq('id', params.id)
+    .eq('id', id)
     .single();
 
   if (workerError || !worker) {

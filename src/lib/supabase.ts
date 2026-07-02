@@ -1,17 +1,12 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@/utils/supabase/client';
+import { getSupabaseBrowserConfig, requireSupabaseBrowserConfig } from '@/utils/supabase/config';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const { supabaseKey, supabaseUrl } = getSupabaseBrowserConfig();
 
-export const hasSupabaseBrowserConfig = Boolean(supabaseUrl && supabaseAnonKey);
+export const hasSupabaseBrowserConfig = Boolean(supabaseUrl && supabaseKey);
 
-export const supabase = createClient(
-  supabaseUrl || 'https://example.supabase.co',
-  supabaseAnonKey || 'missing-anon-key',
-);
+export const supabase = createClient();
 
 export function assertSupabaseBrowserConfig() {
-  if (!hasSupabaseBrowserConfig) {
-    throw new Error('Faltan NEXT_PUBLIC_SUPABASE_URL o NEXT_PUBLIC_SUPABASE_ANON_KEY.');
-  }
+  requireSupabaseBrowserConfig();
 }

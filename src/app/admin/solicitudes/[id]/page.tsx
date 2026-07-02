@@ -4,9 +4,9 @@ import { requireAdmin } from '@/lib/supabase-server';
 import { assignWorkersToRequest } from '../actions';
 
 type PageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 type WorkerProfileRow = {
@@ -51,12 +51,13 @@ const assignmentStatusLabels: Record<string, string> = {
 };
 
 export default async function AdminServiceRequestDetailPage({ params }: PageProps) {
+  const { id } = await params;
   const { supabase } = await requireAdmin();
 
   const { data: request, error: requestError } = await supabase
     .from('service_requests')
     .select('id,city,address,details,status,scheduled_at,customer_profile_id,category_id,created_at')
-    .eq('id', params.id)
+    .eq('id', id)
     .single();
 
   if (requestError || !request) {
@@ -66,7 +67,7 @@ export default async function AdminServiceRequestDetailPage({ params }: PageProp
   const [{ data: category }, { data: customer }, { data: assignments }, { data: workers }] = await Promise.all([
     supabase.from('service_categories').select('id,name').eq('id', request.category_id).single(),
     supabase.from('customer_profiles').select('id,profile_id').eq('id', request.customer_profile_id).single(),
-    supabase.from('service_request_assignments').select('worker_profile_id,status').eq('service_request_id', params.id),
+    supabase.from('service_request_assignments').select('worker_profile_id,status').eq('service_request_id', id),
     supabase
       .from('worker_profiles')
       .select('id,profile_id,experience_years,service_radius_km')

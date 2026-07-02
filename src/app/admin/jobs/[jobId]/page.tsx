@@ -7,9 +7,9 @@ import { disputeStatusLabel } from '../../disputes/constants';
 import { requireAdmin } from '@/lib/supabase-server';
 
 type PageProps = {
-  params: {
+  params: Promise<{
     jobId: string;
-  };
+  }>;
 };
 
 type Job = {
@@ -119,13 +119,14 @@ function dateTime(value: string | null) {
 export const dynamic = 'force-dynamic';
 
 export default async function AdminJobDetailPage({ params }: PageProps) {
+  const { jobId } = await params;
   const { supabase } = await requireAdmin();
   const { data: job, error: jobError } = await supabase
     .from('jobs')
     .select(
       'id,service_request_id,quote_id,customer_profile_id,worker_profile_id,category_id,scheduled_at,started_at,completed_at,status,total_amount,commission_amount,created_at,metadata',
     )
-    .eq('id', params.jobId)
+    .eq('id', jobId)
     .single();
 
   if (jobError || !job) {

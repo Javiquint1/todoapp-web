@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import { requireAdmin } from '@/lib/supabase-server';
 
+type ServiceRequestSearchParams = {
+  status?: string;
+  city?: string;
+  category?: string;
+  urgency?: string;
+};
+
 type PageProps = {
-  searchParams?: {
-    status?: string;
-    city?: string;
-    category?: string;
-    urgency?: string;
-  };
+  searchParams?: Promise<ServiceRequestSearchParams>;
 };
 
 type ServiceRequest = {
@@ -77,7 +79,7 @@ function getUrgency(metadata: Record<string, unknown> | null) {
   return typeof metadata?.urgency === 'string' && metadata.urgency ? metadata.urgency : 'normal';
 }
 
-function filterHref(key: keyof NonNullable<PageProps['searchParams']>, value: string, searchParams?: PageProps['searchParams']) {
+function filterHref(key: keyof ServiceRequestSearchParams, value: string, searchParams?: ServiceRequestSearchParams) {
   const params = new URLSearchParams();
   for (const [paramKey, paramValue] of Object.entries(searchParams ?? {})) {
     if (paramValue && paramKey !== key) {
@@ -94,11 +96,12 @@ function filterHref(key: keyof NonNullable<PageProps['searchParams']>, value: st
 export const dynamic = 'force-dynamic';
 
 export default async function AdminServiceRequestsPage({ searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams;
   const { supabase } = await requireAdmin();
-  const selectedStatus = requestStatuses.includes(searchParams?.status ?? '') ? searchParams?.status : '';
-  const selectedCity = searchParams?.city?.trim() ?? '';
-  const selectedCategory = searchParams?.category?.trim() ?? '';
-  const selectedUrgency = urgencyFilters.includes(searchParams?.urgency ?? '') ? searchParams?.urgency : '';
+  const selectedStatus = requestStatuses.includes(resolvedSearchParams?.status ?? '') ? resolvedSearchParams?.status : '';
+  const selectedCity = resolvedSearchParams?.city?.trim() ?? '';
+  const selectedCategory = resolvedSearchParams?.category?.trim() ?? '';
+  const selectedUrgency = urgencyFilters.includes(resolvedSearchParams?.urgency ?? '') ? resolvedSearchParams?.urgency : '';
 
   let query = supabase
     .from('service_requests')
@@ -219,13 +222,16 @@ export default async function AdminServiceRequestsPage({ searchParams }: PagePro
         </form>
 
         <nav className="filter-bar" aria-label="Filtros por estado">
-          <Link className={!selectedStatus ? 'filter-chip filter-chip-active' : 'filter-chip'} href={filterHref('status', '', searchParams)}>
+          <Link
+            className={!selectedStatus ? 'filter-chip filter-chip-active' : 'filter-chip'}
+            href={filterHref('status', '', resolvedSearchParams)}
+          >
             Todas
           </Link>
           {requestStatuses.map((status) => (
             <Link
               className={selectedStatus === status ? 'filter-chip filter-chip-active' : 'filter-chip'}
-              href={filterHref('status', status, searchParams)}
+              href={filterHref('status', status, resolvedSearchParams)}
               key={status}
             >
               {statusLabel(status)}

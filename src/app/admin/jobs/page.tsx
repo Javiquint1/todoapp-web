@@ -3,12 +3,12 @@ import { requireAdmin } from '@/lib/supabase-server';
 import { jobStatuses, statusLabel } from './constants';
 
 type PageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     status?: string;
     worker?: string;
     customer?: string;
     city?: string;
-  };
+  }>;
 };
 
 type Job = {
@@ -67,11 +67,14 @@ function personName(personId: string, peopleById: Map<string, PersonProfile>, pr
 export const dynamic = 'force-dynamic';
 
 export default async function AdminJobsPage({ searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams;
   const { supabase } = await requireAdmin();
-  const selectedStatus = jobStatuses.includes(searchParams?.status as (typeof jobStatuses)[number]) ? searchParams?.status : '';
-  const selectedWorker = searchParams?.worker?.trim() ?? '';
-  const selectedCustomer = searchParams?.customer?.trim() ?? '';
-  const selectedCity = searchParams?.city?.trim() ?? '';
+  const selectedStatus = jobStatuses.includes(resolvedSearchParams?.status as (typeof jobStatuses)[number])
+    ? resolvedSearchParams?.status
+    : '';
+  const selectedWorker = resolvedSearchParams?.worker?.trim() ?? '';
+  const selectedCustomer = resolvedSearchParams?.customer?.trim() ?? '';
+  const selectedCity = resolvedSearchParams?.city?.trim() ?? '';
 
   let query = supabase
     .from('jobs')

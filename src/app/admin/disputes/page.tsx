@@ -3,10 +3,10 @@ import { disputeStatusLabel, disputeStatuses, disputeTypeLabel, disputeTypes } f
 import { requireAdmin } from '@/lib/supabase-server';
 
 type PageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     status?: string;
     type?: string;
-  };
+  }>;
 };
 
 type Dispute = {
@@ -62,9 +62,14 @@ function personName(personId: string, peopleById: Map<string, PersonProfile>, pr
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDisputesPage({ searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams;
   const { supabase } = await requireAdmin();
-  const selectedStatus = disputeStatuses.includes(searchParams?.status as (typeof disputeStatuses)[number]) ? searchParams?.status : '';
-  const selectedType = disputeTypes.includes(searchParams?.type as (typeof disputeTypes)[number]) ? searchParams?.type : '';
+  const selectedStatus = disputeStatuses.includes(resolvedSearchParams?.status as (typeof disputeStatuses)[number])
+    ? resolvedSearchParams?.status
+    : '';
+  const selectedType = disputeTypes.includes(resolvedSearchParams?.type as (typeof disputeTypes)[number])
+    ? resolvedSearchParams?.type
+    : '';
 
   let query = supabase
     .from('disputes')

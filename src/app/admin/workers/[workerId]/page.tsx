@@ -3,9 +3,9 @@ import { notFound } from 'next/navigation';
 import { requireAdmin } from '@/lib/supabase-server';
 
 type PageProps = {
-  params: {
+  params: Promise<{
     workerId: string;
-  };
+  }>;
 };
 
 type WorkerProfile = {
@@ -85,11 +85,12 @@ function readText(value: unknown) {
 }
 
 export default async function AdminWorkerProfilePage({ params }: PageProps) {
+  const { workerId } = await params;
   const { supabase } = await requireAdmin();
   const { data: worker, error: workerError } = await supabase
     .from('worker_profiles')
     .select('id,profile_id,service_radius_km,verification_status,status,is_verified,bio,experience_years,metadata')
-    .eq('id', params.workerId)
+    .eq('id', workerId)
     .single();
 
   if (workerError || !worker) {
